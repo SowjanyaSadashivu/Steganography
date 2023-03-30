@@ -1,13 +1,24 @@
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine
+import os
 
 db_connection_string = os.environ['DB_CONNECTION_STRING']
+
 engine = create_engine(db_connection_string,
                        connect_args={'ssl': {
                          'ssl_ca': "/etc/ssl/cert.pem"
                        }})
 
 
-#belove is the code co connect to db and get values from db
+def add_user(data):
+  with engine.connect() as conn:
+    query = "insert into register (name, username, password) values (:names, :usernames, :passwords)"
+    conn.execute(query,
+                 names=data['full_name'],
+                 usernames=data['username'],
+                 passwords=data['password']);
+
+
+#below is the code co connect to db and get values from db
 '''
 #to get information from database
 with engine.connect() as conn:
