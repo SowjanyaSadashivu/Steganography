@@ -46,17 +46,6 @@
     </style>
   </head>
  
-  <body>   
-    <div class='container'>
-      <h3 class='text-center mt-2 mb-3'>SteganoGraphy</h3>
-      <h2>Encrypt or Decrypt</h2>
-      <img id = 'banner' src='https://steganography.sowjanyas.repl.co/static/homepage.jpg'>
-      <div style='text-align:center'>
-        <button style= 'margin-top:5px;' ><a href = '/textencode/' style='text-decoration: none; color: white;'>Text encode</a></button><br>
-        <button><a href = '/audioencode/' style='text-decoration: none; color: white;'>Audio encode</a></button><br>
-        <button><a href = '/videoencode/' style='text-decoration: none; color: white;'>Video encode</a></button>
-      </div>      
-    </div>
+  <body>  
+    {% include 'nav.html' %}
   </body>
-</html>
-

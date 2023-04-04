@@ -1,10 +1,17 @@
-from flask import Flask, render_template, request, redirect, session, url_for
+from flask import Flask, render_template, request, redirect, url_for
+from werkzeug.utils import secure_filename
 from database import add_user, engine
+from flask_login import logout_user
 import re
+import os
 #from hashlib import md5
 from sqlalchemy import text
 #from database import load_values_from_db
 #import above if we are using any function in the page
+
+UPLOAD_FOLDER = ('static/uploads')
+# # Define allowed files
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
 
@@ -72,9 +79,7 @@ def login():
 @app.route('/login/logout')
 def logout():
   # Remove session data, this will log the user out
-  session.pop('loggedin', None)
-  session.pop('id', None)
-  session.pop('username', None)
+  logout_user()
   # Redirect to login page
   return redirect(url_for('login'))
 
@@ -84,19 +89,30 @@ def encodedecode():
   return render_template('home_encodedecode.html')
 
 
-@app.route('/encode/')
-def encode():
-  return render_template('encode.html')
-
-
-@app.route('/decode/')
-def decode():
-  return render_template('decode.html')
+@app.route('/imageencode/')
+def imageencode():
+  return render_template('imageencode.html')
 
 
 @app.route('/textencode/')
 def textencode():
   return render_template('textencode.html')
+
+
+@app.route('/textencode/', methods=("POST", "GET"))
+def uploadFile():
+  if request.method == 'POST':
+    # Upload file flask
+    uploaded_img = request.files['baseFile']
+    # Extracting uploaded data file name
+    img_filename = secure_filename(uploaded_img.filename)
+    # Upload file to database (defined uploaded folder in static path)
+    uploaded_img.save(os.path.join(app.config['UPLOAD_FOLDER'], img_filename))
+  return render_template('textencode.html')
+
+
+if __name__ == '__main__':
+  app.run(debug=True)
 
 
 @app.route('/audioencode/')
@@ -107,6 +123,11 @@ def audioencode():
 @app.route('/videoencode/')
 def videoencode():
   return render_template('videoencode.html')
+
+
+@app.route('/imagedecode/')
+def imagedecode():
+  return render_template('imagedecode.html')
 
 
 @app.route('/textdecode/')
