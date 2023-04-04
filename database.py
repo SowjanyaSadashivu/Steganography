@@ -1,4 +1,5 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
+#from hashlib import md5
 import os
 
 db_connection_string = os.environ['DB_CONNECTION_STRING']
@@ -9,13 +10,13 @@ engine = create_engine(db_connection_string,
                        }})
 
 
-def add_user(data):
+def add_user(n, u, p, e):
   with engine.connect() as conn:
-    query = "insert into register (name, username, password) values (:names, :usernames, :passwords)"
-    conn.execute(query,
-                 names=data['full_name'],
-                 usernames=data['username'],
-                 passwords=data['password']);
+    data = {"u": u, "p": p, "n": n, "e": e},
+    statement = text(
+      """INSERT INTO register(username, password, name, email) VALUES(:u, :p, :n, :e)"""
+    )
+    conn.execute(statement, data)
 
 
 #below is the code co connect to db and get values from db

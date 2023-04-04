@@ -50,7 +50,7 @@
     <div class='container'>
       <h2 class='text-center mt-2 mb-3'>Register</h2>
       <div class = 'login'>
-        <form method = 'post'>
+        <form action="{{ url_for('register') }}" method = 'POST'>
           <div class="form-floating">            
             <input type="text" name = 'full_name' class="form-control" id="floatingInputGroup2" placeholder="Name" required>
             <label for="floatingInputGroup2">Name</label>
@@ -60,7 +60,12 @@
             <input type="text" name = 'username' class="form-control" id="floatingInputGroup2" placeholder="Username" required>
             <label for="floatingInputGroup2">Username</label>
           </div>  
-          <br>          
+          <br>  
+          <div class="form-floating">            
+            <input type="text" name = 'email' class="form-control" id="floatingInputGroup2" placeholder="Email" required>
+            <label for="floatingInputGroup2">Email</label>
+          </div>  
+          <br> 
           <div class="form-floating">
             <input type="password" name = 'password' class="form-control" id="pswd" placeholder="Password" required> 
             <label for="floatingInputGroup2">Password</label>
@@ -71,12 +76,13 @@
             <label for="floatingInputGroup2">Confirm Password</label>
           </div>
            <br> 
+          <div class="msg">{{ msg }}</div>
+          <br>
           <div style='text-align:center'>        
         <input type='submit' name = 'register' value='Register'>
-        <p style='font-style:italic; font-size:12px;'>Already have an account? <a href = 'login' style='text-decoration: none;'>Login</a></p>
+        <p style='font-style:italic; font-size:12px;'>Already have an account? <a href = '/login/' style='text-decoration: none;'>Login</a></p>
       </div> 
         </form>       
       </div>          
     </div>
  
-
